@@ -38,7 +38,7 @@ joblib.dump(text_format,'label_encoder.pkl')
 
 #Make predictions
 y_pred=model.predict(X_test)
-#evaluate
+#evaluatecategoricalNB
 accuracy=accuracy_score(y_test,y_pred)
 conf_matrix=confusion_matrix(y_test,y_pred)
 classification_report=classification_report(y_test,y_pred)

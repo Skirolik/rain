@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 df= pd.read_csv('data.csv')
-#print(df)
+print(df)
 
 df['UT time'] = df['UT time'].replace('24:00:00', '00:00')
 # Assuming your data frame is named 'df'
