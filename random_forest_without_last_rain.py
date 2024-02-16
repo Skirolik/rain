@@ -7,6 +7,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score,confusion_matrix,precision_score,recall_score,ConfusionMatrixDisplay
 from sklearn.model_selection import RandomizedSearchCV,train_test_split
+
+from sklearn.metrics import confusion_matrix,classification_report
 from scipy.stats import randint
 
 #Tree Visulalization
@@ -30,13 +32,13 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2)
 
 # Best parameter
 
-param_dist = {'n_estimators': randint(10, 500), 'max_depth': randint(1, 50)}
+param_dist = {'n_estimators': randint(100, 800), 'max_depth': randint(1, 60)}
 
 
-rf=RandomForestClassifier(n_estimators=321,max_depth=43)
+rf=RandomForestClassifier(n_estimators=231,max_depth=30)
 
-
-# rand_search=RandomizedSearchCV(rf,param_distributions=param_dist,n_iter=5,cv=20)
+#
+# rand_search=RandomizedSearchCV(rf,param_distributions=param_dist,n_iter=5,cv=10)
 #
 # rand_search.fit(X_train,y_train)
 #
@@ -45,6 +47,7 @@ rf=RandomForestClassifier(n_estimators=321,max_depth=43)
 # print('Best hyperparameters:',rand_search.best_params_)
 
 rf.fit(X_train,y_train)
+print('Training completed')
 
 y_pred=rf.predict(X_test)
 print('Predicted values',y_pred)
@@ -56,3 +59,14 @@ precision=precision_score(y_test,y_pred,average=None)
 print('precision micro:',precision)
 recall=recall_score(y_test,y_pred,average=None)
 print('recall Score:',recall)
+conf_matrix=confusion_matrix(y_test,y_pred)
+print(conf_matrix)
+
+class_report=classification_report(y_test,y_pred)
+print(class_report)
+
+
+feature_importance=pd.Series(rf.feature_importances_,index=X_train.columns).sort_values(ascending=False)
+
+feature_importance.plot.bar()
+plt.show()
